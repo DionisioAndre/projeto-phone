@@ -1,1 +1,1 @@
-web: gunicorn meu_projeto.wsgi:application
+web: PYTHONPATH=meu_projeto gunicorn meu_projeto.wsgi
