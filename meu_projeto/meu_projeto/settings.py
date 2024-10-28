@@ -6,8 +6,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'sua-chave-secreta')
-DEBUG = True  # Habilitar depuração durante o desenvolvimento
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Permitir acesso local
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'  # Usar variável de ambiente para depuração
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    'seu-dominio.render.com'  # Substitua pelo seu domínio na Render
+]  # Permitir acesso local e produção
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,19 +34,17 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware','whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-# Remova ou comente as configurações de segurança para desenvolvimento
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_SSL_REDIRECT = not DEBUG  # Redireciona para HTTPS em produção
-# SESSION_COOKIE_SECURE = not DEBUG  # Cookies seguros em produção
-# CSRF_COOKIE_SECURE = not DEBUG  # Cookies CSRF seguros em produção
-# SECURE_HSTS_SECONDS = 3600  # Ativar HSTS por 1 hora
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'  # Política de Referência
+# Configurações de segurança (descomente em produção)
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 TEMPLATES = [
     {
@@ -61,14 +63,10 @@ TEMPLATES = [
 ]
 
 ROOT_URLCONF = 'meu_projeto.urls'
-DATABASES = {
-    'default': dj_database_url.config(default='postgres://localhost')
-}
 
-# DATABASES = {
-  'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-    }
-#}
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -80,13 +78,17 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000","pagapouco-app.herokuapp.com","vercel",
-    # Adicione suas origens de produção aqui se necessário
+    "http://localhost:3000",
+    "https://seu-dominio.render.com",  # Substitua pelo seu domínio na Render
+    # Adicione outras origens de produção aqui, se necessário
 ]
+
 CORS_ALLOW_METHODS = [
     "GET",
     "POST",
-    "OPTIONS","PUT","DELETE"
+    "OPTIONS",
+    "PUT",
+    "DELETE"
 ]
 
 LANGUAGE_CODE = 'pt-br'
@@ -101,4 +103,4 @@ WSGI_APPLICATION = 'meu_projeto.wsgi.application'
 AUTH_USER_MODEL = 'minha_app.User'
 
 # Remover a ativação do Heroku para desenvolvimento
-# Ativar Heroku se necessário django_heroku.settings(locals())
+# Ativar Heroku se necessário (não utilizado, então removido)
