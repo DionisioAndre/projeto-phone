@@ -5,12 +5,12 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'sua-chave-secreta')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '1234')
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'  # Usar variável de ambiente para depuração
 ALLOWED_HOSTS = [
     'localhost', 
     '127.0.0.1', 
-    'seu-dominio.render.com'  # Substitua pelo seu domínio na Render
+    'pagapouco.render.com'  # Substitua pelo seu domínio na Render
 ]  # Permitir acesso local e produção
 
 INSTALLED_APPS = [
@@ -79,7 +79,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://seu-dominio.render.com",  # Substitua pelo seu domínio na Render
+    "https://pagapouco.render.com",  # Substitua pelo seu domínio na Render
     # Adicione outras origens de produção aqui, se necessário
 ]
 
